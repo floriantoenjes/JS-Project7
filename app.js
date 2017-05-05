@@ -1,11 +1,9 @@
 "use strict";
 
 var express = require("express");
+
 var Twit = require("twit");
-
-var twitterConfig = require("./config");
-
-var Twitter = new Twit(twitterConfig);
+var Twitter = new Twit(require("./config"));
 
 var app = express();
 
