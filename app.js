@@ -21,7 +21,9 @@ app.set('views', __dirname + '/templates');
 app.get("/", function(req, res) {
 
     const promises = [];
-    const model = {};
+    const model = {
+        screen_name: "Florian_Tnjes"
+    };
 
     promises.push(new Promise(function (resolve, reject) {
         T.get('statuses/user_timeline', {count: 5}, function(err, data, response) {
