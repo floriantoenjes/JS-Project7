@@ -32,7 +32,9 @@ app.get("/", function(req, res) {
                     text: status.text,
                     retweet_count: status.retweet_count,
                     favorite_count: status.favorite_count,
-                    created_at: status.created_at
+                    created_at: status.created_at,
+                    username: status.user.name,
+                    screen_name: status.user.screen_name
                 };
 
                 statuses.push(statusObject);
