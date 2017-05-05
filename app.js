@@ -5,7 +5,7 @@ var Twit = require("twit");
 
 var twitterConfig = require("./config");
 
-var T = new Twit(twitterConfig);
+var Twitter = new Twit(twitterConfig);
 
 var app = express();
 
@@ -22,7 +22,7 @@ app.get("/", function(req, res) {
     };
 
     promises.push(new Promise(function (resolve, reject) {
-        T.get('statuses/user_timeline', {count: 5}, function(err, data, response) {
+        Twitter.get('statuses/user_timeline', {count: 5}, function(err, data, response) {
             const statuses = [];
 
             for (let status of data) {
@@ -47,7 +47,7 @@ app.get("/", function(req, res) {
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        T.get('friends/list', {count: 5}, function(err, data, response) {
+        Twitter.get('friends/list', {count: 5}, function(err, data, response) {
             const friends = []
 
             if (data.users === undefined) {
@@ -77,7 +77,7 @@ app.get("/", function(req, res) {
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        T.get('direct_messages', {count: 5}, function(err, data, response) {
+        Twitter.get('direct_messages', {count: 5}, function(err, data, response) {
             const messages = [];
 
             for (let message of data) {
