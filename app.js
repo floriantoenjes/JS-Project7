@@ -28,13 +28,22 @@ app.get("/", function(req, res) {
             const statuses = [];
 
             for (let status of data) {
-                console.log(status.text);
-                console.log(status.retweet_count);
-                console.log(status.favorite_count);
-                console.log(status.created_at);
+                const statusObject = {
+                    text: status.text,
+                    retweet_count: status.retweet_count,
+                    favorite_count: status.favorite_count,
+                    created_at: status.created_at
+                };
+
+                statuses.push(statusObject);
+
+//                console.log(status.text);
+//                console.log(status.retweet_count);
+//                console.log(status.favorite_count);
+//                console.log(status.created_at);
             }
 
-            model.statuses = data;
+            model.statuses = statuses;
 
             resolve(true);
         });
@@ -70,7 +79,7 @@ app.get("/", function(req, res) {
 
     Promise.all(promises).then(function () {
 //        console.log(model);
-        res.render("index");
+        res.render("index", model);
     });
 
 });
