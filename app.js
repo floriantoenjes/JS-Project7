@@ -25,13 +25,13 @@ app.get("/", function(req, res) {
 
             for (let status of data) {
                 const statusObject = {
-                    text: status.text,
-                    retweet_count: status.retweet_count,
-                    favorite_count: status.favorite_count,
                     created_at: status.created_at,
-                    username: status.user.name,
+                    favorite_count: status.favorite_count,
+                    profile_image: status.user.profile_image_url_https,
+                    retweet_count: status.retweet_count,
                     screen_name: status.user.screen_name,
-                    profile_image: status.user.profile_image_url_https
+                    text: status.text,
+                    username: status.user.name
                 };
 
                 statuses.push(statusObject);
@@ -58,8 +58,8 @@ app.get("/", function(req, res) {
             for (let friend of data.users) {
                 const friendObject = {
                     name: friend.name,
-                    screen_name: friend.screen_name,
-                    profile_image: friend.profile_image_url_https
+                    profile_image: friend.profile_image_url_https,
+                    screen_name: friend.screen_name
                 };
 
                 friends.push(friendObject);
@@ -77,10 +77,10 @@ app.get("/", function(req, res) {
 
             for (let message of data) {
                 const messageObject = {
-                    text: message.text,
                     created_at: message.created_at,
+                    profile_image: message.sender.profile_image_url_https,
                     sender: message.sender.name,
-                    profile_image: message.sender.profile_image_url_https
+                    text: message.text
                 };
 
                 messages.push(messageObject);
