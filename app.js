@@ -1,9 +1,10 @@
 "use strict";
 
 var express = require("express");
+var config = require("./config");
 
 var Twit = require("twit");
-var Twitter = new Twit(require("./config"));
+var Twitter = new Twit(config);
 
 var app = express();
 
@@ -16,7 +17,7 @@ app.get("/", function(req, res) {
 
     const promises = [];
     const model = {
-        screen_name: "Florian_Tnjes"
+        screen_name: config.screen_name
     };
 
     promises.push(new Promise(function (resolve, reject) {
