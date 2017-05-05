@@ -37,7 +37,6 @@ app.get("/", function(req, res) {
                 };
 
                 statuses.push(statusObject);
-
             }
 
             model.statuses = statuses;
@@ -66,7 +65,6 @@ app.get("/", function(req, res) {
                 };
 
                 friends.push(friendObject);
-
             }
 
             model.friends = friends;
