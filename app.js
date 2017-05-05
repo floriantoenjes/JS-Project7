@@ -62,13 +62,13 @@ app.get("/", function(req, res) {
             }
 
             for (let friend of data.users) {
-                const friendsObject = {
+                const friendObject = {
                     name: friend.name,
                     screen_name: friend.screen_name,
                     profile_image: friend.profile_image_url_https
                 };
 
-                friends.push(friendsObject);
+                friends.push(friendObject);
 
                 console.log(friend.name);
                 console.log(friend.profile_image_url_https);
