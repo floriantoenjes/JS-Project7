@@ -82,7 +82,7 @@ html(lang='en')
                   strong.app--tweet--timestamp #{status.created_at}
                   |
                   a.app--tweet--author
-                    .app--avatar(style='background-image: url(static/images/f-spore.png)')
+                    .app--avatar(style='background-image: url(' + status.profile_image + ')')
                       img(src='static/images/f-spore.png')
                     |
                     h4 #{status.username}

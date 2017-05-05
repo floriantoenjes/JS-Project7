@@ -34,7 +34,8 @@ app.get("/", function(req, res) {
                     favorite_count: status.favorite_count,
                     created_at: status.created_at,
                     username: status.user.name,
-                    screen_name: status.user.screen_name
+                    screen_name: status.user.screen_name,
+                    profile_image: status.user.profile_image_url_https
                 };
 
                 statuses.push(statusObject);
