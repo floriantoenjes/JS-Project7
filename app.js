@@ -82,13 +82,21 @@ app.get("/", function(req, res) {
 
     promises.push(new Promise(function (resolve, reject) {
         T.get('direct_messages', {count: 5}, function(err, data, response) {
+            const messages = [];
 
             for (let message of data) {
+                const messageObject = {
+                    text: message.text,
+                    created_at: message.created_at
+                };
+
+                messages.push(messageObject);
+
                 console.log(message.text);
                 console.log(message.created_at);
             }
 
-            model.messages = data;
+            model.messages = messages;
 
             resolve(true);
         });
