@@ -73,6 +73,7 @@ app.get("/", function(req, res) {
 
             }
 
+            model.friends_count = data.users.length;
             model.friends = friends;
 
             resolve(true);
