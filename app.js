@@ -53,6 +53,14 @@ app.get("/", function(req, res) {
         T.get('friends/list', {count: 5}, function(err, data, response) {
             const friends = []
 
+            if (data.users === undefined) {
+                console.log("Friends undefined");
+
+                model.friends = {};
+                resolve(true);
+                return;
+            }
+
             for (let friend of data.users) {
                 const friendsObject = {
                     name: friend.name,

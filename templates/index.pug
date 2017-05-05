@@ -128,15 +128,15 @@ html(lang='en')
       .grid-33
         .app--section
           ul.app--user--list
-            each val in [1, 2, 3]
+            each friend in friends
                 li
                   .circle--fluid
                     .circle--fluid--cell.circle--fluid--primary
                       a.app--tweet--author
-                        .app--avatar(style='background-image: url(static/images/f-spore.png)')
-                          img(src='static/images/f-spore.png')
+                        .app--avatar(style='background-image: url(' + friend.profile_image + ')')
+                          img(src=friend.profile_image)
                         |
-                        h4 Jill Spore
+                        h4 #{friend.name}
                         |
                         p @jillspore
                     |
