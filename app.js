@@ -64,6 +64,7 @@ app.get("/", function(req, res) {
             for (let friend of data.users) {
                 const friendsObject = {
                     name: friend.name,
+                    screen_name: friend.screen_name,
                     profile_image: friend.profile_image_url_https
                 };
 
