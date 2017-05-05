@@ -51,13 +51,21 @@ app.get("/", function(req, res) {
 
     promises.push(new Promise(function (resolve, reject) {
         T.get('friends/list', {count: 5}, function(err, data, response) {
+            const friends = []
 
             for (let friend of data.users) {
+                const friendsObject = {
+                    name: friend.name,
+                    profile_image: friend.profile_image_url_https
+                };
+
+                friends.push(friendsObject);
+
                 console.log(friend.name);
                 console.log(friend.profile_image_url_https);
             }
 
-            model.friends = data;
+            model.friends = friends;
 
             resolve(true);
         });
