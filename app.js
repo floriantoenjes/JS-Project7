@@ -42,10 +42,6 @@ app.get("/", function(req, res) {
 
                 statuses.push(statusObject);
 
-//                console.log(status.text);
-//                console.log(status.retweet_count);
-//                console.log(status.favorite_count);
-//                console.log(status.created_at);
             }
 
             model.statuses = statuses;
@@ -75,8 +71,6 @@ app.get("/", function(req, res) {
 
                 friends.push(friendObject);
 
-                console.log(friend.name);
-                console.log(friend.profile_image_url_https);
             }
 
             model.friends = friends;
@@ -92,13 +86,12 @@ app.get("/", function(req, res) {
             for (let message of data) {
                 const messageObject = {
                     text: message.text,
-                    created_at: message.created_at
+                    created_at: message.created_at,
+                    sender: message.sender.name,
+                    profile_image: message.sender.profile_image_url_https
                 };
 
                 messages.push(messageObject);
-
-                console.log(message.text);
-                console.log(message.created_at);
             }
 
             model.messages = messages;
@@ -108,7 +101,6 @@ app.get("/", function(req, res) {
     }));
 
     Promise.all(promises).then(function () {
-//        console.log(model);
         res.render("index", model);
     });
 

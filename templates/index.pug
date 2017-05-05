@@ -150,12 +150,12 @@ html(lang='en')
             each message in messages
                 li
                   h3
-                    | Conversation with
-                    a Jill Spore
+                    | Message received from
+                    a #{message.sender}
                   |
                   ul.app--message--conversation
-                    li.app--message
-                      .app--avatar(style='background-image: url(static/images/f-spore.png)')
+                    li.app--message--me
+                      .app--avatar(style='background-image: url(' + message.profile_image + ')')
                         img(src='static/images/f-spore.png')
                       |
                       p.app--message--text #{message.text}
