@@ -22,8 +22,8 @@ app.get("/", function(req, res) {
     promises.push(new Promise(function (resolve, reject) {
         Twitter.get('statuses/user_timeline', {count: 5}, function(err, data, response) {
             const statuses = [];
-
             for (let status of data) {
+
                 const statusObject = {
                     created_at: status.created_at,
                     favorite_count: status.favorite_count,
@@ -47,15 +47,8 @@ app.get("/", function(req, res) {
         Twitter.get('friends/list', {count: 5}, function(err, data, response) {
             const friends = []
 
-            if (data.users === undefined) {
-                console.log("Friends undefined");
+            for (let friend of (data.users || [])) {
 
-                model.friends = {};
-                resolve(true);
-                return;
-            }
-
-            for (let friend of data.users) {
                 const friendObject = {
                     name: friend.name,
                     profile_image: friend.profile_image_url_https,
@@ -74,8 +67,8 @@ app.get("/", function(req, res) {
     promises.push(new Promise(function (resolve, reject) {
         Twitter.get('direct_messages', {count: 5}, function(err, data, response) {
             const messages = [];
-
             for (let message of data) {
+
                 const messageObject = {
                     created_at: message.created_at,
                     profile_image: message.sender.profile_image_url_https,
