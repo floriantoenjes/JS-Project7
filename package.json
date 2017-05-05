@@ -1,0 +1,16 @@
+{
+  "name": "treehouse-project7",
+  "version": "1.0.0",
+  "description": "Treehouse Project 7 - Build a Twitter Interface",
+  "main": "js/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2",
+    "pug": "^2.0.0-rc.1",
+    "twit": "^2.2.5"
+  }
+}
