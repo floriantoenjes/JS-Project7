@@ -1,6 +1,7 @@
 "use strict";
 
 var express = require("express");
+var bodyParser = require("body-parser");
 var config = require("./config");
 
 var Twit = require("twit");
@@ -8,6 +9,9 @@ var Twitter = new Twit(config);
 
 var app = express();
 
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use('/static', express.static(__dirname + '/public'));
 
 app.set('view engine', 'pug');
@@ -93,7 +97,10 @@ app.get("/", function(req, res) {
 });
 
 app.post("/", function (req, res) {
-    res.send(req.param("text"));
+    Twitter.post('statuses/update', { status: req.body.text }, function(err, data, response) {
+        res.redirect("/");
+    });
+
 });
 
 app.listen(3000, function() {
