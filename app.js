@@ -17,7 +17,7 @@ app.set('views', __dirname + '/templates');
 app.get("/", function (req, res) {
     const model = {};
 
-    Twitter.addTwitterDataToModel(model, function() {
+    Twitter.collectTwitterData(model, function() {
         res.render("index", model);
     });
 
@@ -32,5 +32,3 @@ app.post("/", function (req, res) {
 app.listen(3000, function () {
     console.log("The frontend server is running on port 3000!");
 });
-
-

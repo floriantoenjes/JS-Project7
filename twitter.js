@@ -4,7 +4,7 @@ const config = require("./config"),
     Twit = require("twit"),
     Twitter = new Twit(config);
 
-function addTwitterDataToModel(model, callback) {
+function collectTwitterData(model, callback) {
     const promises = [];
 
     promises.push(new Promise(function (resolve, reject) {
@@ -125,5 +125,5 @@ function sendTweet(text, callback) {
     }
 }
 
-module.exports.addTwitterDataToModel = addTwitterDataToModel;
+module.exports.collectTwitterData = collectTwitterData;
 module.exports.sendTweet = sendTweet;
