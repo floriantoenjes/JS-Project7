@@ -47,7 +47,7 @@ app.get("/", function(req, res) {
     promises.push(new Promise(function (resolve, reject) {
         Twitter.get('friends/list', {count: 5}, function(err, data, response) {
             const friends = []
-            for (let friend of (data.users || [])) {
+            for (let friend of (data.users || [] )) {
 
                 const friendObject = {
                     name: friend.name,
@@ -84,6 +84,7 @@ app.get("/", function(req, res) {
             resolve(true);
         });
     }));
+
 
     Promise.all(promises).then(function () {
         res.render("index", model);
