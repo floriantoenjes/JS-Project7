@@ -16,8 +16,8 @@ app.set('views', __dirname + '/templates');
 
 app.get("/", function (req, res) {
     const model = {};
+    const promises = Twitter.addTwitterDataToModel(model);
 
-    const promises = Twitter.getTwitterData(model);
     Promise.all(promises).then(function () {
         res.render("index", model);
     });

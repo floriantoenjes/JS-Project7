@@ -4,29 +4,29 @@ const config = require("./config");
 const Twit = require("twit");
 const Twitter = new Twit(config);
 
-function getTwitterData(model) {
+function addTwitterDataToModel(model) {
     const promises = [];
 
     promises.push(new Promise(function (resolve, reject) {
-        getSettings(model, resolve);
+        addSettingsToModel(model, resolve);
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        getStatuses(model, resolve);
+        addStatusesToModel(model, resolve);
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        getFriends(model, resolve);
+        addFriendsToModel(model, resolve);
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        getMessages(model, resolve);
+        addMessagesToModel(model, resolve);
     }));
 
     return promises;
 }
 
-function getSettings(model, resolve) {
+function addSettingsToModel(model, resolve) {
     Twitter.get('account/settings', {}, function (err, data, response) {
         model.screen_name = data.screen_name;
 
@@ -40,7 +40,7 @@ function getSettings(model, resolve) {
     });
 }
 
-function getStatuses(model, resolve) {
+function addStatusesToModel(model, resolve) {
     Twitter.get('statuses/user_timeline', {
         count: 5
     }, function (err, data, response) {
@@ -66,7 +66,7 @@ function getStatuses(model, resolve) {
     });
 }
 
-function getFriends(model, resolve) {
+function addFriendsToModel(model, resolve) {
     Twitter.get('friends/list', {
         count: 5
     }, function (err, data, response) {
@@ -88,7 +88,7 @@ function getFriends(model, resolve) {
     });
 }
 
-function getMessages(model, resolve) {
+function addMessagesToModel(model, resolve) {
     Twitter.get('direct_messages', {
         count: 5
     }, function (err, data, response) {
@@ -121,9 +121,5 @@ function sendTweet(text) {
     }
 }
 
-module.exports.getTwitterData = getTwitterData;
-module.exports.getSettings = getSettings;
-module.exports.getStatuses = getStatuses;
-module.exports.getFriends = getFriends;
-module.exports.getMessages = getMessages;
+module.exports.addTwitterDataToModel = addTwitterDataToModel;
 module.exports.sendTweet = sendTweet;
