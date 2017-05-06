@@ -11,26 +11,34 @@ var app = express();
 
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use('/static', express.static(__dirname + '/public'));
 
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/templates');
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
 
     const promises = [];
     const model = {};
 
     promises.push(new Promise(function (resolve, reject) {
-        Twitter.get('account/settings', {}, function(err, data, response) {
+        Twitter.get('account/settings', {}, function (err, data, response) {
             model.screen_name = data.screen_name;
-            resolve(true);
+
+            Twitter.get('users/show', {screen_name: model.screen_name}, function (err, data, response) {
+                model.profile_image = data.profile_image_url_https;
+                resolve(true);
+            });
         });
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        Twitter.get('statuses/user_timeline', {count: 5}, function(err, data, response) {
+        Twitter.get('statuses/user_timeline', {
+            count: 5
+        }, function (err, data, response) {
             const statuses = [];
             for (let status of data) {
 
@@ -54,9 +62,11 @@ app.get("/", function(req, res) {
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        Twitter.get('friends/list', {count: 5}, function(err, data, response) {
+        Twitter.get('friends/list', {
+            count: 5
+        }, function (err, data, response) {
             const friends = []
-            for (let friend of (data.users || [] )) {
+            for (let friend of(data.users || [])) {
 
                 const friendObject = {
                     name: friend.name,
@@ -74,7 +84,9 @@ app.get("/", function(req, res) {
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        Twitter.get('direct_messages', {count: 5}, function(err, data, response) {
+        Twitter.get('direct_messages', {
+            count: 5
+        }, function (err, data, response) {
             const messages = [];
             for (let message of data) {
 
@@ -102,12 +114,14 @@ app.get("/", function(req, res) {
 });
 
 app.post("/", function (req, res) {
-    Twitter.post('statuses/update', { status: req.body.text }, function(err, data, response) {
+    Twitter.post('statuses/update', {
+        status: req.body.text
+    }, function (err, data, response) {
         res.redirect("/");
     });
 
 });
 
-app.listen(3000, function() {
-	console.log("The frontend server is running on port 3000!");
+app.listen(3000, function () {
+    console.log("The frontend server is running on port 3000!");
 });
