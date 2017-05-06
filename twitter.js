@@ -4,32 +4,32 @@ const config = require("./config"),
     Twit = require("twit");
 
 const Twitter = new Twit(config);
+const promises = [];
 
-function collectTwitterData(object, next, callback) {
-    const promises = [];
+var object = {};
+var next = function() {};
 
-    promises.push(new Promise(function (resolve, reject) {
-        addSettings(object, resolve, next);
-    }));
+function collectTwitterData(obj, nxt, callback) {
+    object = obj;
+    next = nxt;
 
-    promises.push(new Promise(function (resolve, reject) {
-        addStatuses(object, resolve, next);
-    }));
-
-    promises.push(new Promise(function (resolve, reject) {
-        addFriends(object, resolve, next);
-    }));
-
-    promises.push(new Promise(function (resolve, reject) {
-        addMessages(object, resolve, next);
-    }));
+    addPromise(addSettings);
+    addPromise(addStatuses);
+    addPromise(addFriends);
+    addPromise(addMessages);
 
     Promise.all(promises).then(function () {
         callback();
     });
 }
 
-function addSettings(object, resolve, next) {
+function addPromise(func) {
+    promises.push(new Promise(function (resolve, reject) {
+        func(resolve);
+    }));
+}
+
+function addSettings(resolve) {
     Twitter.get('account/settings', {}, function (err, data, response) {
         if (err) {
             next(err);
@@ -48,7 +48,7 @@ function addSettings(object, resolve, next) {
     });
 }
 
-function addStatuses(object, resolve, next) {
+function addStatuses(resolve) {
     Twitter.get('statuses/user_timeline', {
         count: 5
     }, function (err, data, response) {
@@ -79,7 +79,7 @@ function addStatuses(object, resolve, next) {
     });
 }
 
-function addFriends(object, resolve, next) {
+function addFriends(resolve) {
     Twitter.get('friends/list', {
         count: 5
     }, function (err, data, response) {
@@ -106,7 +106,7 @@ function addFriends(object, resolve, next) {
     });
 }
 
-function addMessages(object, resolve, next) {
+function addMessages(resolve) {
     Twitter.get('direct_messages', {
         count: 5
     }, function (err, data, response) {
