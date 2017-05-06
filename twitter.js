@@ -1,8 +1,8 @@
 "use strict";
 
-const config = require("./config");
-const Twit = require("twit");
-const Twitter = new Twit(config);
+const config = require("./config"),
+    Twit = require("twit"),
+    Twitter = new Twit(config);
 
 function addTwitterDataToModel(model) {
     const promises = [];

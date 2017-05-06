@@ -1,8 +1,8 @@
 "use strict";
 
-const express = require("express");
-const bodyParser = require("body-parser");
-const Twitter = require("./twitter");
+const express = require("express"),
+      bodyParser = require("body-parser"),
+      Twitter = require("./twitter");
 
 const app = express();
 
