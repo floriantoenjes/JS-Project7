@@ -7,7 +7,7 @@ const Twitter = new Twit(config);
 const promises = [];
 
 var object = {};
-var next = function() {};
+var next = function () {};
 
 function collectTwitterData(obj, nxt, callback) {
     object = obj;
@@ -49,15 +49,14 @@ function addSettings(resolve) {
 }
 
 function addStatuses(resolve) {
-    Twitter.get('statuses/user_timeline', {
-        count: 5
-    }, function (err, data, response) {
+    Twitter.get('statuses/user_timeline', {count: 5}, function (err, data, response) {
         if (err) {
             next(err);
             return;
         }
 
         const statuses = [];
+
         for (let status of data) {
 
             const statusObject = {
@@ -80,15 +79,14 @@ function addStatuses(resolve) {
 }
 
 function addFriends(resolve) {
-    Twitter.get('friends/list', {
-        count: 5
-    }, function (err, data, response) {
+    Twitter.get('friends/list', {count: 5}, function (err, data, response) {
         if (err) {
             next(err);
             return;
         }
 
         const friends = []
+
         for (let friend of(data.users || [])) {
 
             const friendObject = {
@@ -107,15 +105,14 @@ function addFriends(resolve) {
 }
 
 function addMessages(resolve) {
-    Twitter.get('direct_messages', {
-        count: 5
-    }, function (err, data, response) {
+    Twitter.get('direct_messages', {count: 5}, function (err, data, response) {
         if (err) {
             next(err);
             return;
         }
 
         const messages = [];
+
         for (let message of data) {
 
             const messageObject = {
@@ -136,9 +133,7 @@ function addMessages(resolve) {
 
 function sendTweet(text, next, callback) {
     if (text.trim().length > 0) {
-        Twitter.post('statuses/update', {
-            status: text
-        }, function (err, data, response) {
+        Twitter.post('statuses/update', {status: text}, function (err, data, response) {
             if (err) {
                 next(err);
                 return;
