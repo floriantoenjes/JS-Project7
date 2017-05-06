@@ -1,8 +1,30 @@
 "use strict";
 
-var config = require("./config");
-var Twit = require("twit");
-var Twitter = new Twit(config);
+const config = require("./config");
+const Twit = require("twit");
+const Twitter = new Twit(config);
+
+function getTwitterData(model) {
+    const promises = [];
+
+    promises.push(new Promise(function (resolve, reject) {
+        getSettings(model, resolve);
+    }));
+
+    promises.push(new Promise(function (resolve, reject) {
+        getStatuses(model, resolve);
+    }));
+
+    promises.push(new Promise(function (resolve, reject) {
+        getFriends(model, resolve);
+    }));
+
+    promises.push(new Promise(function (resolve, reject) {
+        getMessages(model, resolve);
+    }));
+
+    return promises;
+}
 
 function getSettings(model, resolve) {
     Twitter.get('account/settings', {}, function (err, data, response) {
@@ -89,6 +111,7 @@ function getMessages(model, resolve) {
     });
 }
 
+module.exports.getTwitterData = getTwitterData;
 module.exports.getSettings = getSettings;
 module.exports.getStatuses = getStatuses;
 module.exports.getFriends = getFriends;
