@@ -4,23 +4,23 @@ const config = require("./config"),
     Twit = require("twit"),
     Twitter = new Twit(config);
 
-function collectTwitterData(object, callback) {
+function collectTwitterData(object, next, callback) {
     const promises = [];
 
     promises.push(new Promise(function (resolve, reject) {
-        addSettings(object, resolve);
+        addSettings(object, resolve, next);
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        addStatuses(object, resolve);
+        addStatuses(object, resolve, next);
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        addFriends(object, resolve);
+        addFriends(object, resolve, next);
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        addMessages(object, resolve);
+        addMessages(object, resolve, next);
     }));
 
     Promise.all(promises).then(function () {
@@ -28,8 +28,13 @@ function collectTwitterData(object, callback) {
     });
 }
 
-function addSettings(object, resolve) {
+function addSettings(object, resolve, next) {
     Twitter.get('account/settings', {}, function (err, data, response) {
+        if (err) {
+            next(err);
+            return;
+        }
+
         object.screen_name = data.screen_name;
 
         Twitter.get('users/show', {
@@ -42,10 +47,15 @@ function addSettings(object, resolve) {
     });
 }
 
-function addStatuses(object, resolve) {
+function addStatuses(object, resolve, next) {
     Twitter.get('statuses/user_timeline', {
         count: 5
     }, function (err, data, response) {
+        if (err) {
+            next(err);
+            return;
+        }
+
         const statuses = [];
         for (let status of data) {
 
@@ -68,10 +78,15 @@ function addStatuses(object, resolve) {
     });
 }
 
-function addFriends(object, resolve) {
+function addFriends(object, resolve, next) {
     Twitter.get('friends/list', {
         count: 5
     }, function (err, data, response) {
+        if (err) {
+            next(err);
+            return;
+        }
+
         const friends = []
         for (let friend of(data.users || [])) {
 
@@ -90,10 +105,15 @@ function addFriends(object, resolve) {
     });
 }
 
-function addMessages(object, resolve) {
+function addMessages(object, resolve, next) {
     Twitter.get('direct_messages', {
         count: 5
     }, function (err, data, response) {
+        if (err) {
+            next(err);
+            return;
+        }
+
         const messages = [];
         for (let message of data) {
 
@@ -113,11 +133,16 @@ function addMessages(object, resolve) {
     });
 }
 
-function sendTweet(text, callback) {
+function sendTweet(text, next, callback) {
     if (text.trim().length > 0) {
         Twitter.post('statuses/update', {
             status: text
         }, function (err, data, response) {
+            if (err) {
+                next(err);
+                return;
+            }
+
             callback();
         });
     } else {
