@@ -1,8 +1,9 @@
 "use strict";
 
 const config = require("./config"),
-    Twit = require("twit"),
-    Twitter = new Twit(config);
+    Twit = require("twit");
+
+const Twitter = new Twit(config);
 
 function collectTwitterData(object, next, callback) {
     const promises = [];
