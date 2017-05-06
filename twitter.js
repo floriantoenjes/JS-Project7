@@ -111,13 +111,15 @@ function addMessagesToModel(model, resolve) {
     });
 }
 
-function sendTweet(text) {
+function sendTweet(text, callback) {
     if (text.trim().length > 0) {
         Twitter.post('statuses/update', {
             status: text
         }, function (err, data, response) {
-            res.redirect("/");
+            callback();
         });
+    } else {
+        callback();
     }
 }
 

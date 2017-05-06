@@ -24,8 +24,9 @@ app.get("/", function (req, res) {
 });
 
 app.post("/", function (req, res) {
-    Twitter.sendTweet(req.body.text);
-    res.redirect("/");
+    Twitter.sendTweet(req.body.text, function() {
+        res.redirect("/");
+    });
 });
 
 app.listen(3000, function () {
