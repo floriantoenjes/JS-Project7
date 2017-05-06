@@ -28,10 +28,13 @@ app.get("/", function (req, res) {
         Twitter.get('account/settings', {}, function (err, data, response) {
             model.screen_name = data.screen_name;
 
-            Twitter.get('users/show', {screen_name: model.screen_name}, function (err, data, response) {
+            Twitter.get('users/show', {
+                screen_name: model.screen_name
+            }, function (err, data, response) {
                 model.profile_image = data.profile_image_url_https;
                 resolve(true);
             });
+
         });
     }));
 
@@ -114,11 +117,13 @@ app.get("/", function (req, res) {
 });
 
 app.post("/", function (req, res) {
-    Twitter.post('statuses/update', {
-        status: req.body.text
-    }, function (err, data, response) {
-        res.redirect("/");
-    });
+    if (req.body.text.trim().length > 0) {
+        Twitter.post('statuses/update', {
+            status: req.body.text
+        }, function (err, data, response) {
+            res.redirect("/");
+        });
+    }
 
 });
 
