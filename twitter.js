@@ -4,23 +4,23 @@ const config = require("./config"),
     Twit = require("twit"),
     Twitter = new Twit(config);
 
-function collectTwitterData(model, callback) {
+function collectTwitterData(object, callback) {
     const promises = [];
 
     promises.push(new Promise(function (resolve, reject) {
-        addSettings(model, resolve);
+        addSettings(object, resolve);
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        addStatuses(model, resolve);
+        addStatuses(object, resolve);
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        addFriends(model, resolve);
+        addFriends(object, resolve);
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        addMessages(model, resolve);
+        addMessages(object, resolve);
     }));
 
     Promise.all(promises).then(function () {
@@ -28,21 +28,21 @@ function collectTwitterData(model, callback) {
     });
 }
 
-function addSettings(model, resolve) {
+function addSettings(object, resolve) {
     Twitter.get('account/settings', {}, function (err, data, response) {
-        model.screen_name = data.screen_name;
+        object.screen_name = data.screen_name;
 
         Twitter.get('users/show', {
-            screen_name: model.screen_name
+            screen_name: object.screen_name
         }, function (err, data, response) {
-            model.profile_image = data.profile_image_url_https;
+            object.profile_image = data.profile_image_url_https;
             resolve(true);
         });
 
     });
 }
 
-function addStatuses(model, resolve) {
+function addStatuses(object, resolve) {
     Twitter.get('statuses/user_timeline', {
         count: 5
     }, function (err, data, response) {
@@ -62,13 +62,13 @@ function addStatuses(model, resolve) {
             statuses.push(statusObject);
         }
 
-        model.statuses = statuses;
+        object.statuses = statuses;
 
         resolve(true);
     });
 }
 
-function addFriends(model, resolve) {
+function addFriends(object, resolve) {
     Twitter.get('friends/list', {
         count: 5
     }, function (err, data, response) {
@@ -84,13 +84,13 @@ function addFriends(model, resolve) {
             friends.push(friendObject);
         }
 
-        model.friends = friends;
+        object.friends = friends;
 
         resolve(true);
     });
 }
 
-function addMessages(model, resolve) {
+function addMessages(object, resolve) {
     Twitter.get('direct_messages', {
         count: 5
     }, function (err, data, response) {
@@ -107,7 +107,7 @@ function addMessages(model, resolve) {
             messages.push(messageObject);
         }
 
-        model.messages = messages;
+        object.messages = messages;
 
         resolve(true);
     });
