@@ -20,9 +20,14 @@ app.set('views', __dirname + '/templates');
 app.get("/", function(req, res) {
 
     const promises = [];
-    const model = {
-        screen_name: config.screen_name
-    };
+    const model = {};
+
+    promises.push(new Promise(function (resolve, reject) {
+        Twitter.get('account/settings', {}, function(err, data, response) {
+            model.screen_name = data.screen_name;
+            resolve(true);
+        });
+    }));
 
     promises.push(new Promise(function (resolve, reject) {
         Twitter.get('statuses/user_timeline', {count: 5}, function(err, data, response) {
