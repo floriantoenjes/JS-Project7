@@ -16,11 +16,11 @@ app.set('views', __dirname + '/templates');
 
 app.get("/", function (req, res) {
     const model = {};
-    const promises = Twitter.addTwitterDataToModel(model);
 
-    Promise.all(promises).then(function () {
+    Twitter.addTwitterDataToModel(model, function() {
         res.render("index", model);
     });
+
 });
 
 app.post("/", function (req, res) {
