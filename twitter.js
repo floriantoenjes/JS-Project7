@@ -40,7 +40,7 @@ function getSettings(model, resolve) {
     });
 }
 
-function getStatuses(model,resolve) {
+function getStatuses(model, resolve) {
     Twitter.get('statuses/user_timeline', {
         count: 5
     }, function (err, data, response) {
@@ -111,8 +111,19 @@ function getMessages(model, resolve) {
     });
 }
 
+function sendTweet(text) {
+    if (text.trim().length > 0) {
+        Twitter.post('statuses/update', {
+            status: text
+        }, function (err, data, response) {
+            res.redirect("/");
+        });
+    }
+}
+
 module.exports.getTwitterData = getTwitterData;
 module.exports.getSettings = getSettings;
 module.exports.getStatuses = getStatuses;
 module.exports.getFriends = getFriends;
 module.exports.getMessages = getMessages;
+module.exports.sendTweet = sendTweet;

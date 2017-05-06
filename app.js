@@ -16,23 +16,16 @@ app.set('views', __dirname + '/templates');
 
 app.get("/", function (req, res) {
     const model = {};
+
     const promises = Twitter.getTwitterData(model);
     Promise.all(promises).then(function () {
         res.render("index", model);
     });
-
 });
 
 app.post("/", function (req, res) {
-    if (req.body.text.trim().length > 0) {
-        Twitter.post('statuses/update', {
-            status: req.body.text
-        }, function (err, data, response) {
-            res.redirect("/");
-        });
-    }
+    Twitter.sendTweet(req.body.text);
     res.redirect("/");
-
 });
 
 app.listen(3000, function () {
