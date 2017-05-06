@@ -8,19 +8,19 @@ function collectTwitterData(model, callback) {
     const promises = [];
 
     promises.push(new Promise(function (resolve, reject) {
-        addSettingsToModel(model, resolve);
+        addSettings(model, resolve);
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        addStatusesToModel(model, resolve);
+        addStatuses(model, resolve);
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        addFriendsToModel(model, resolve);
+        addFriends(model, resolve);
     }));
 
     promises.push(new Promise(function (resolve, reject) {
-        addMessagesToModel(model, resolve);
+        addMessages(model, resolve);
     }));
 
     Promise.all(promises).then(function () {
@@ -28,7 +28,7 @@ function collectTwitterData(model, callback) {
     });
 }
 
-function addSettingsToModel(model, resolve) {
+function addSettings(model, resolve) {
     Twitter.get('account/settings', {}, function (err, data, response) {
         model.screen_name = data.screen_name;
 
@@ -42,7 +42,7 @@ function addSettingsToModel(model, resolve) {
     });
 }
 
-function addStatusesToModel(model, resolve) {
+function addStatuses(model, resolve) {
     Twitter.get('statuses/user_timeline', {
         count: 5
     }, function (err, data, response) {
@@ -68,7 +68,7 @@ function addStatusesToModel(model, resolve) {
     });
 }
 
-function addFriendsToModel(model, resolve) {
+function addFriends(model, resolve) {
     Twitter.get('friends/list', {
         count: 5
     }, function (err, data, response) {
@@ -90,7 +90,7 @@ function addFriendsToModel(model, resolve) {
     });
 }
 
-function addMessagesToModel(model, resolve) {
+function addMessages(model, resolve) {
     Twitter.get('direct_messages', {
         count: 5
     }, function (err, data, response) {
