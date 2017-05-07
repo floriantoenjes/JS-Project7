@@ -4,10 +4,10 @@ const config = require("./config"),
     Twit = require("twit");
 
 const Twitter = new Twit(config);
-const promises = [];
 
 var object = {};
 var next = function () {};
+var promises = [];
 
 function collectTwitterData(obj, nxt, callback) {
     object = obj;
