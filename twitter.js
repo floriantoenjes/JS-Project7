@@ -5,9 +5,9 @@ const config = require("./config"),
 
 const Twitter = new Twit(config);
 
-var object = {};
-var next = function () {};
-var promises = [];
+let object = {};
+let next = function () {};
+let promises = [];
 
 function collectTwitterData(obj, nxt, callback) {
     object = obj;
