@@ -41,7 +41,9 @@ function addSettings(resolve, reject) {
             reject(err);
         }
 
-        const object = {screen_name: data.screen_name};
+        const object = {
+            screen_name: data.screen_name
+        };
 
         Twitter.get('users/show', {
             screen_name: object.screen_name
