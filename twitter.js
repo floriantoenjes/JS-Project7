@@ -5,22 +5,22 @@ const config = require("./config"),
 
 const Twitter = new Twit(config);
 
-function Promises() {
-    this.promiseList = [];
+function PromiseList() {
+    this.promises = [];
     this.addPromise = function (func) {
-        this.promiseList.push(new Promise(func));
+        this.promises.push(new Promise(func));
     }
 }
 
 function collectTwitterData(object, next, callback) {
-    const promises = new Promises();
+    const promiseList = new PromiseList();
 
-    promises.addPromise(addSettings);
-    promises.addPromise(addStatuses);
-    promises.addPromise(addFriends);
-    promises.addPromise(addMessages);
+    promiseList.addPromise(addSettings);
+    promiseList.addPromise(addStatuses);
+    promiseList.addPromise(addFriends);
+    promiseList.addPromise(addMessages);
 
-    Promise.all(promises.promiseList).then(
+    Promise.all(promiseList.promises).then(
         function (results) {
             mergeResults(object, results);
             callback();
