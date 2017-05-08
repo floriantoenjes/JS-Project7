@@ -6,32 +6,29 @@ const config = require("./config"),
 const Twitter = new Twit(config);
 
 let object = {};
-let next = function () {};
 let promises = [];
 
-function collectTwitterData(obj, nxt, callback) {
+function collectTwitterData(obj, next, callback) {
     object = obj;
-    next = nxt;
 
     addPromise(addSettings);
     addPromise(addStatuses);
     addPromise(addFriends);
     addPromise(addMessages);
 
-    Promise.all(promises).then(callback);
+    Promise.all(promises).then(callback).catch(next);
 }
 
 function addPromise(func) {
     promises.push(new Promise(function (resolve, reject) {
-        func(resolve);
+        func(resolve, reject);
     }));
 }
 
-function addSettings(resolve) {
+function addSettings(resolve, reject) {
     Twitter.get('account/settings', {}, function (err, data, response) {
         if (err) {
-            next(err);
-            return;
+            reject(err);
         }
 
         object.screen_name = data.screen_name;
@@ -45,11 +42,10 @@ function addSettings(resolve) {
     });
 }
 
-function addStatuses(resolve) {
+function addStatuses(resolve, reject) {
     Twitter.get('statuses/user_timeline', {count: 5}, function (err, data, response) {
         if (err) {
-            next(err);
-            return;
+            reject(err);
         }
 
         const statuses = [];
@@ -75,11 +71,10 @@ function addStatuses(resolve) {
     });
 }
 
-function addFriends(resolve) {
+function addFriends(resolve, reject) {
     Twitter.get('friends/list', {count: 5}, function (err, data, response) {
         if (err) {
-            next(err);
-            return;
+            reject(err);
         }
 
         const friends = []
@@ -101,11 +96,10 @@ function addFriends(resolve) {
     });
 }
 
-function addMessages(resolve) {
+function addMessages(resolve, reject) {
     Twitter.get('direct_messages', {count: 5}, function (err, data, response) {
         if (err) {
-            next(err);
-            return;
+            reject(err);
         }
 
         const messages = [];
