@@ -6,21 +6,17 @@ const config = require("./config"),
 const Twitter = new Twit(config);
 
 let object = {};
-let promises = [];
 
 function collectTwitterData(obj, next, callback) {
     object = obj;
+    const promises = [];
 
-    addPromise(addSettings);
-    addPromise(addStatuses);
-    addPromise(addFriends);
-    addPromise(addMessages);
+    promises.push(new Promise(addSettings));
+    promises.push(new Promise(addStatuses));
+    promises.push(new Promise(addFriends));
+    promises.push(new Promise(addMessages));
 
     Promise.all(promises).then(callback).catch(next);
-}
-
-function addPromise(func) {
-    promises.push(new Promise(func));
 }
 
 function addSettings(resolve, reject) {
