@@ -1,14 +1,11 @@
 "use strict";
 
 const config = require("./config"),
-    Twit = require("twit");
+      Twit = require("twit");
 
 const Twitter = new Twit(config);
 
-let object = {};
-
-function collectTwitterData(obj, next, callback) {
-    object = obj;
+function collectTwitterData(object, next, callback) {
     const promises = [];
 
     promises.push(new Promise(addSettings));
@@ -16,7 +13,19 @@ function collectTwitterData(obj, next, callback) {
     promises.push(new Promise(addFriends));
     promises.push(new Promise(addMessages));
 
-    Promise.all(promises).then(callback).catch(next);
+    Promise.all(promises).then(
+        function (results) {
+            mergeResults(object, results);
+            callback();
+        }).catch(next);
+}
+
+function mergeResults(object, results) {
+    for (let result of results) {
+        for (let key in result) {
+            object[key] = result[key];
+        }
+    }
 }
 
 function addSettings(resolve, reject) {
@@ -25,13 +34,13 @@ function addSettings(resolve, reject) {
             reject(err);
         }
 
-        object.screen_name = data.screen_name;
+        const object = {screen_name: data.screen_name};
 
         Twitter.get('users/show', {
             screen_name: object.screen_name
         }, function (err, data, response) {
             object.profile_image = data.profile_image_url_https;
-            resolve(true);
+            resolve(object);
         });
     });
 }
@@ -42,10 +51,10 @@ function addStatuses(resolve, reject) {
             reject(err);
         }
 
+        const object = {};
         const statuses = [];
 
         for (let status of data) {
-
             const statusObject = {
                 created_at: status.created_at,
                 favorite_count: status.favorite_count,
@@ -55,13 +64,12 @@ function addStatuses(resolve, reject) {
                 text: status.text,
                 username: status.user.name
             };
-
             statuses.push(statusObject);
         }
 
         object.statuses = statuses;
 
-        resolve(true);
+        resolve(object);
     });
 }
 
@@ -71,22 +79,21 @@ function addFriends(resolve, reject) {
             reject(err);
         }
 
+        const object = {};
         const friends = []
 
         for (let friend of(data.users || [])) {
-
             const friendObject = {
                 name: friend.name,
                 profile_image: friend.profile_image_url_https,
                 screen_name: friend.screen_name
             };
-
             friends.push(friendObject);
         }
 
         object.friends = friends;
 
-        resolve(true);
+        resolve(object);
     });
 }
 
@@ -96,23 +103,22 @@ function addMessages(resolve, reject) {
             reject(err);
         }
 
+        const object = {};
         const messages = [];
 
         for (let message of data) {
-
             const messageObject = {
                 created_at: message.created_at,
                 profile_image: message.sender.profile_image_url_https,
                 sender: message.sender.name,
                 text: message.text
             };
-
             messages.push(messageObject);
         }
 
         object.messages = messages;
 
-        resolve(true);
+        resolve(object);
     });
 }
 
