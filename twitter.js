@@ -20,9 +20,7 @@ function collectTwitterData(obj, next, callback) {
 }
 
 function addPromise(func) {
-    promises.push(new Promise(function (resolve, reject) {
-        func(resolve, reject);
-    }));
+    promises.push(new Promise(func));
 }
 
 function addSettings(resolve, reject) {
