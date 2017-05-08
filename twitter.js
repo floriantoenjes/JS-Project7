@@ -29,9 +29,7 @@ function PromiseList() {
 
 function mergeResults(object, results) {
     for (let result of results) {
-        for (let key in result) {
-            object[key] = result[key];
-        }
+        Object.assign(object, result);
     }
 }
 
