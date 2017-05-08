@@ -18,9 +18,7 @@ function collectTwitterData(obj, nxt, callback) {
     addPromise(addFriends);
     addPromise(addMessages);
 
-    Promise.all(promises).then(function () {
-        callback();
-    });
+    Promise.all(promises).then(callback);
 }
 
 function addPromise(func) {
@@ -44,7 +42,6 @@ function addSettings(resolve) {
             object.profile_image = data.profile_image_url_https;
             resolve(true);
         });
-
     });
 }
 
