@@ -5,13 +5,6 @@ const config = require("./config"),
 
 const Twitter = new Twit(config);
 
-function PromiseList() {
-    this.promises = [];
-    this.addPromise = function (func) {
-        this.promises.push(new Promise(func));
-    }
-}
-
 function collectTwitterData(object, next, callback) {
     const promiseList = new PromiseList();
 
@@ -25,6 +18,13 @@ function collectTwitterData(object, next, callback) {
             mergeResults(object, results);
             callback();
         }).catch(next);
+}
+
+function PromiseList() {
+    this.promises = [];
+    this.addPromise = function (func) {
+        this.promises.push(new Promise(func));
+    }
 }
 
 function mergeResults(object, results) {
