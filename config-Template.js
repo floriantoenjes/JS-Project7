@@ -5,6 +5,5 @@ module.exports = {
   consumer_secret:      '...',
   access_token:         '...',
   access_token_secret:  '...',
-  screen_name:          '...',
-  timeout_ms:           60*1000  // optional HTTP request timeout in milliseconds to apply to all requests.
+  timeout_ms:           60*1000  // optional HTTP request timeout to apply to all requests.
 };
